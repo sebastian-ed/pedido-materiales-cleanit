@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Armador de pedidos estandarizados de materiales Clean It para consorcios y servicios." />
+  <title>Clean It | Pedidos de Materiales</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Clean It · Operaciones</p>
+      <h1>Pedidos de materiales</h1>
+      <p class="header-copy">Armá pedidos estandarizados por consorcio, con alertas de desvío y salida lista para WhatsApp o mail.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="btnResetAll" type="button">Reiniciar</button>
+      <button class="btn btn-primary" id="btnNewOrder" type="button">+ Nuevo pedido</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel orders-panel" aria-label="Listado de pedidos">
+      <div class="panel-title-row">
+        <div>
+          <p class="eyebrow">Lote actual</p>
+          <h2>Servicios</h2>
+        </div>
+        <span class="pill" id="orderCount">0</span>
+      </div>
+      <div class="orders-list" id="ordersList"></div>
+    </aside>
+
+    <section class="workspace">
+      <section class="panel form-panel">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Datos del servicio</p>
+            <h2>Pedido activo</h2>
+          </div>
+          <button class="btn btn-danger-soft" id="btnDeleteOrder" type="button">Eliminar pedido</button>
+        </div>
+
+        <div class="grid two-columns">
+          <label class="field">
+            <span>Supervisor</span>
+            <input id="supervisor" type="text" placeholder="Nombre del supervisor" autocomplete="name" />
+          </label>
+          <label class="field">
+            <span>Nombre del consorcio / servicio</span>
+            <input id="consorcio" type="text" placeholder="Ej: Consorcio Av. Santa Fe 1234" />
+          </label>
+          <label class="field full">
+            <span>Frecuencia y horario</span>
+            <textarea id="frecuencia" rows="3" placeholder="Ej: lunes a jueves 4 hs de 8 a 12; viernes 3 hs de 8 a 11"></textarea>
+          </label>
+          <label class="field full">
+            <span>Observaciones operativas</span>
+            <textarea id="observaciones" rows="2" placeholder="Particularidades del servicio, consumo superior habitual, espacios especiales, etc."></textarea>
+          </label>
+        </div>
+
+        <div class="service-options" aria-label="Características del servicio">
+          <label class="check-card">
+            <input id="isGym" type="checkbox" />
+            <span>
+              <strong>Gimnasio</strong>
+              <small>Habilita Alcohol AL70 como desinfectante sugerido.</small>
+            </span>
+          </label>
+          <label class="check-card">
+            <input id="hasGarage" type="checkbox" />
+            <span>
+              <strong>Tiene cochera</strong>
+              <small>Habilita escobillón largo para cochera.</small>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel kit-panel">
+        <div class="panel-title-row wrap">
+          <div>
+            <p class="eyebrow">Catálogo autorizado</p>
+            <h2>Materiales del kit</h2>
+          </div>
+          <div class="actions-row">
+            <button class="btn btn-secondary" id="btnLoadSuggested" type="button">Cargar kit sugerido</button>
+            <button class="btn btn-ghost" id="btnClearItems" type="button">Vaciar materiales</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <label class="field search-field">
+            <span>Buscar material</span>
+            <input id="searchCatalog" type="search" placeholder="Ej: Wood, bolsas, detergente..." />
+          </label>
+          <label class="field compact-field">
+            <span>Categoría</span>
+            <select id="categoryFilter"></select>
+          </label>
+        </div>
+
+        <div id="catalogList" class="catalog-list"></div>
+      </section>
+
+      <section class="panel exception-panel">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">Control de desvíos</p>
+            <h2>Agregar ítem excepcional</h2>
+          </div>
+          <span class="pill warning">requiere motivo</span>
+        </div>
+        <p class="muted">Usalo solo para casos fuera del kit. Si el pedido intenta volver a marcas o insumos no estandarizados, la app deja trazabilidad.</p>
+        <div class="grid exception-grid">
+          <label class="field">
+            <span>Material excepcional</span>
+            <input id="exceptionName" type="text" placeholder="Ej: insumo especial solicitado por cliente" />
+          </label>
+          <label class="field">
+            <span>Cantidad</span>
+            <input id="exceptionQty" type="number" min="0.1" step="0.1" value="1" />
+          </label>
+          <label class="field">
+            <span>Unidad</span>
+            <input id="exceptionUnit" type="text" placeholder="unidad, paquete, litro..." value="unidad" />
+          </label>
+          <label class="field full">
+            <span>Motivo</span>
+            <textarea id="exceptionReason" rows="2" placeholder="Explicar por qué corresponde pedirlo fuera del kit"></textarea>
+          </label>
+        </div>
+        <div id="exceptionHint" class="standard-hint hidden"></div>
+        <button class="btn btn-secondary" id="btnAddException" type="button">Agregar ítem excepcional</button>
+      </section>
+    </section>
+
+    <aside class="panel preview-panel" aria-label="Vista previa del pedido">
+      <div class="panel-title-row wrap">
+        <div>
+          <p class="eyebrow">Vista previa editable</p>
+          <h2>Pedido armado</h2>
+        </div>
+        <span class="pill" id="alertCount">0 alertas</span>
+      </div>
+
+      <div id="activeSummary" class="active-summary"></div>
+      <div id="itemsPreview" class="items-preview"></div>
+      <div id="alertsBox" class="alerts-box hidden"></div>
+
+      <hr />
+
+      <div class="send-config">
+        <label class="field">
+          <span>Número WhatsApp destino opcional</span>
+          <input id="whatsappNumber" type="tel" placeholder="Ej: 5491123456789" inputmode="tel" />
+        </label>
+        <p class="muted tiny">Si queda vacío, se abre WhatsApp para elegir contacto. El número se guarda en este navegador.</p>
+      </div>
+
+      <div class="output-actions">
+        <button class="btn btn-primary" id="btnCopyCurrent" type="button">Copiar pedido activo</button>
+        <button class="btn btn-secondary" id="btnCopyAll" type="button">Copiar todos</button>
+        <button class="btn btn-whatsapp" id="btnWhatsApp" type="button">Enviar por WhatsApp</button>
+        <button class="btn btn-ghost" id="btnEmail" type="button">Enviar por mail</button>
+        <button class="btn btn-ghost" id="btnDownloadTxt" type="button">Descargar TXT</button>
+      </div>
+
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </aside>
+  </main>
+
+  <template id="catalogItemTemplate">
+    <article class="catalog-item">
+      <div class="catalog-main">
+        <span class="category-chip"></span>
+        <h3></h3>
+        <p></p>
+        <small></small>
+      </div>
+      <div class="catalog-controls">
+        <label>
+          <span>Cantidad</span>
+          <input type="number" min="0" step="0.1" />
+        </label>
+        <button class="btn btn-mini" type="button">Agregar</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
