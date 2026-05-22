@@ -1,4 +1,4 @@
-const STORAGE_KEY = "cleanit_pedidos_materiales_v2_bolsas_separadas";
+const STORAGE_KEY = "cleanit_pedidos_materiales_v3_mobile_first";
 const WHATSAPP_KEY = "cleanit_pedidos_whatsapp_destino";
 
 const catalog = [
@@ -393,6 +393,8 @@ function cacheElements() {
     "btnWhatsApp",
     "btnEmail",
     "btnDownloadTxt",
+    "btnMobileCopy",
+    "btnMobileWhatsApp",
     "toast",
   ].forEach((id) => {
     els[id] = document.getElementById(id);
@@ -492,23 +494,21 @@ function bindEvents() {
     localStorage.setItem(WHATSAPP_KEY, cleanPhone(els.whatsappNumber.value));
   });
 
-  els.btnCopyCurrent.addEventListener("click", async () => {
-    await copyText(buildOrderText(getActiveOrder()));
-  });
+  els.btnCopyCurrent.addEventListener("click", copyCurrentOrder);
 
   els.btnCopyAll.addEventListener("click", async () => {
     await copyText(buildAllOrdersText());
   });
 
-  els.btnWhatsApp.addEventListener("click", () => {
-    const text = buildAllOrdersText();
-    const phone = cleanPhone(els.whatsappNumber.value);
-    localStorage.setItem(WHATSAPP_KEY, phone);
-    const url = phone
-      ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
-      : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  });
+  els.btnWhatsApp.addEventListener("click", sendAllOrdersByWhatsApp);
+
+  if (els.btnMobileCopy) {
+    els.btnMobileCopy.addEventListener("click", copyCurrentOrder);
+  }
+
+  if (els.btnMobileWhatsApp) {
+    els.btnMobileWhatsApp.addEventListener("click", sendAllOrdersByWhatsApp);
+  }
 
   els.btnEmail.addEventListener("click", () => {
     const subject = `Pedido de materiales Clean It - ${new Date().toLocaleDateString("es-AR")}`;
@@ -527,6 +527,20 @@ function bindEvents() {
     a.remove();
     URL.revokeObjectURL(url);
   });
+}
+
+async function copyCurrentOrder() {
+  await copyText(buildOrderText(getActiveOrder()));
+}
+
+function sendAllOrdersByWhatsApp() {
+  const text = buildAllOrdersText();
+  const phone = cleanPhone(els.whatsappNumber.value);
+  localStorage.setItem(WHATSAPP_KEY, phone);
+  const url = phone
+    ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+    : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function initializeState() {

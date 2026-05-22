@@ -60,3 +60,15 @@ Las bolsas se cargan como ítems separados por color y tamaño:
 - Bolsas de residuos verdes 90x110
 
 También se actualizó la clave de almacenamiento local para evitar que el navegador muestre pedidos viejos guardados con la versión anterior.
+
+## Actualización mobile-first v3
+
+La interfaz fue rehacida con criterio mobile-first para uso real desde celular:
+
+- Formularios en una sola columna en pantallas chicas.
+- Botones grandes y aptos para uso táctil.
+- Inputs con tamaño compatible para evitar zoom automático en iPhone.
+- Catálogo más cómodo para agregar cantidades desde celular.
+- Barra inferior fija con accesos rápidos: ver pedido, copiar y enviar por WhatsApp.
+- Vista responsive para tablet y escritorio sin perder el diseño de tres columnas en pantallas grandes.
+- Nueva clave de almacenamiento local para evitar conflictos con versiones anteriores.

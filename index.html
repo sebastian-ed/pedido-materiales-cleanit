@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Armador de pedidos estandarizados de materiales Clean It para consorcios y servicios." />
   <title>Clean It | Pedidos de Materiales</title>
-  <link rel="stylesheet" href="styles.css?v=2-bolsas" />
+  <link rel="stylesheet" href="styles.css?v=3-mobile-first" />
 </head>
 <body>
   <header class="app-header">
@@ -141,7 +141,7 @@
       </section>
     </section>
 
-    <aside class="panel preview-panel" aria-label="Vista previa del pedido">
+    <aside class="panel preview-panel" id="previewPanel" aria-label="Vista previa del pedido">
       <div class="panel-title-row wrap">
         <div>
           <p class="eyebrow">Vista previa editable</p>
@@ -194,6 +194,13 @@
     </article>
   </template>
 
-  <script src="app.js?v=2-bolsas"></script>
+
+  <nav class="mobile-bottom-bar" aria-label="Acciones rápidas móviles">
+    <a class="mobile-action" href="#previewPanel">Ver pedido</a>
+    <button class="mobile-action" id="btnMobileCopy" type="button">Copiar</button>
+    <button class="mobile-action primary" id="btnMobileWhatsApp" type="button">WhatsApp</button>
+  </nav>
+
+  <script src="app.js?v=3-mobile-first"></script>
 </body>
 </html>
