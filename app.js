@@ -1,4 +1,4 @@
-const STORAGE_KEY = "cleanit_pedidos_materiales_v1";
+const STORAGE_KEY = "cleanit_pedidos_materiales_v2_bolsas_separadas";
 const WHATSAPP_KEY = "cleanit_pedidos_whatsapp_destino";
 
 const catalog = [
@@ -93,31 +93,64 @@ const catalog = [
     availability: "gym",
   },
   {
-    id: "bolsas-45-60",
+    id: "bolsas-negras-45-60",
     category: "Bolsas",
-    name: "Bolsas de residuos 45x60",
-    detail: "Negras/verdes según cestos · paquete",
+    name: "Bolsas de residuos negras 45x60",
+    detail: "Color negro · paquete",
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
+    includeInSuggestedKit: false,
   },
   {
-    id: "bolsas-70-50",
+    id: "bolsas-verdes-45-60",
     category: "Bolsas",
-    name: "Bolsas de residuos 70x50",
-    detail: "Negras/verdes según cestos · paquete",
+    name: "Bolsas de residuos verdes 45x60",
+    detail: "Color verde · paquete",
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
+    includeInSuggestedKit: false,
   },
   {
-    id: "bolsas-90-110",
+    id: "bolsas-negras-70-50",
     category: "Bolsas",
-    name: "Bolsas de residuos 90x110",
-    detail: "Negras/verdes según cestos · paquete",
+    name: "Bolsas de residuos negras 70x50",
+    detail: "Color negro · paquete",
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
+    includeInSuggestedKit: false,
+  },
+  {
+    id: "bolsas-verdes-70-50",
+    category: "Bolsas",
+    name: "Bolsas de residuos verdes 70x50",
+    detail: "Color verde · paquete",
+    unit: "paquete",
+    suggestedQty: 1,
+    availability: "always",
+    includeInSuggestedKit: false,
+  },
+  {
+    id: "bolsas-negras-90-110",
+    category: "Bolsas",
+    name: "Bolsas de residuos negras 90x110",
+    detail: "Color negro · paquete",
+    unit: "paquete",
+    suggestedQty: 1,
+    availability: "always",
+    includeInSuggestedKit: false,
+  },
+  {
+    id: "bolsas-verdes-90-110",
+    category: "Bolsas",
+    name: "Bolsas de residuos verdes 90x110",
+    detail: "Color verde · paquete",
+    unit: "paquete",
+    suggestedQty: 1,
+    availability: "always",
+    includeInSuggestedKit: false,
   },
   {
     id: "guantes-mapa-8",
@@ -427,13 +460,15 @@ function bindEvents() {
   els.btnLoadSuggested.addEventListener("click", () => {
     const active = getActiveOrder();
     if (!active) return;
-    getAvailableCatalog(active).forEach((material) => {
-      const existing = active.items.find((item) => item.catalogId === material.id);
-      if (!existing) {
-        active.items.push(catalogToOrderItem(material, material.suggestedQty));
-      }
-    });
-    saveAndRender("Kit sugerido cargado. Las cantidades existentes se conservaron.");
+    getAvailableCatalog(active)
+      .filter((material) => material.includeInSuggestedKit !== false)
+      .forEach((material) => {
+        const existing = active.items.find((item) => item.catalogId === material.id);
+        if (!existing) {
+          active.items.push(catalogToOrderItem(material, material.suggestedQty));
+        }
+      });
+    saveAndRender("Kit sugerido cargado. Las bolsas se seleccionan manualmente por color y tamaño.");
   });
 
   els.btnClearItems.addEventListener("click", () => {
