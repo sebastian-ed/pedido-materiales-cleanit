@@ -1,4 +1,4 @@
-const STORAGE_KEY = "cleanit_pedidos_materiales_v3_mobile_first";
+const STORAGE_KEY = "cleanit_pedidos_materiales_v4_kit_bolsas";
 const WHATSAPP_KEY = "cleanit_pedidos_whatsapp_destino";
 
 const catalog = [
@@ -100,7 +100,7 @@ const catalog = [
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
-    includeInSuggestedKit: false,
+    includeInSuggestedKit: true,
   },
   {
     id: "bolsas-verdes-45-60",
@@ -110,7 +110,7 @@ const catalog = [
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
-    includeInSuggestedKit: false,
+    includeInSuggestedKit: true,
   },
   {
     id: "bolsas-negras-70-50",
@@ -140,7 +140,7 @@ const catalog = [
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
-    includeInSuggestedKit: false,
+    includeInSuggestedKit: true,
   },
   {
     id: "bolsas-verdes-90-110",
@@ -150,7 +150,7 @@ const catalog = [
     unit: "paquete",
     suggestedQty: 1,
     availability: "always",
-    includeInSuggestedKit: false,
+    includeInSuggestedKit: true,
   },
   {
     id: "guantes-mapa-8",
@@ -470,7 +470,7 @@ function bindEvents() {
           active.items.push(catalogToOrderItem(material, material.suggestedQty));
         }
       });
-    saveAndRender("Kit sugerido cargado. Las bolsas se seleccionan manualmente por color y tamaño.");
+    saveAndRender("Kit inicial cargado. Incluye 1 paquete de bolsas negras y verdes 45x60, y 1 paquete de bolsas negras y verdes 90x110.");
   });
 
   els.btnClearItems.addEventListener("click", () => {

@@ -9,7 +9,7 @@ Web app estática para que supervisores armen pedidos estandarizados de material
 - Catálogo cerrado con los materiales aprobados del kit Clean It.
 - Carga de múltiples pedidos en un mismo lote.
 - Campos por servicio: supervisor, consorcio, frecuencia, observaciones, gimnasio y cochera.
-- Carga automática del kit sugerido.
+- Carga automática del kit inicial sugerido, incluyendo bolsas base definidas.
 - Bolsas separadas por color y tamaño: negras o verdes en 45x60, 70x50 y 90x110.
 - Edición y eliminación de ítems en la vista previa.
 - Alertas cuando la cantidad supera la sugerida.
@@ -38,7 +38,7 @@ Web app estática para que supervisores armen pedidos estandarizados de material
 1. El supervisor completa los datos del consorcio o servicio.
 2. Marca si es gimnasio o si tiene cochera.
 3. Usa **Cargar kit sugerido** como base.
-4. Selecciona manualmente las bolsas según color y tamaño necesario.
+4. El kit inicial carga automáticamente 1 paquete de bolsas negras 45x60, 1 paquete de bolsas verdes 45x60, 1 paquete de bolsas negras 90x110 y 1 paquete de bolsas verdes 90x110. Las bolsas 70x50 quedan disponibles para agregar manualmente si corresponden.
 5. Ajusta cantidades cuando corresponda.
 6. Si necesita algo fuera del kit, lo carga como **ítem excepcional** y explica el motivo.
 7. Copia el pedido o lo envía por WhatsApp/mail.
@@ -72,3 +72,17 @@ La interfaz fue rehacida con criterio mobile-first para uso real desde celular:
 - Barra inferior fija con accesos rápidos: ver pedido, copiar y enviar por WhatsApp.
 - Vista responsive para tablet y escritorio sin perder el diseño de tres columnas en pantallas grandes.
 - Nueva clave de almacenamiento local para evitar conflictos con versiones anteriores.
+
+
+## Actualización kit inicial v4
+
+Se actualizó el botón **Cargar kit sugerido** para que el kit inicial incorpore automáticamente:
+
+- 1 paquete de bolsas negras 45x60
+- 1 paquete de bolsas verdes 45x60
+- 1 paquete de bolsas negras 90x110
+- 1 paquete de bolsas verdes 90x110
+
+Las bolsas 70x50 siguen disponibles en el catálogo, pero no se cargan automáticamente en el kit inicial.
+
+También se actualizó la versión de cache de `index.html` y la clave de almacenamiento local a `v4_kit_bolsas` para evitar conflictos con versiones anteriores publicadas en GitHub Pages.
